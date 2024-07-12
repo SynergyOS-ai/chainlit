@@ -57,6 +57,7 @@ from fastapi import (
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from starlette.datastructures import URL
 from starlette.middleware.cors import CORSMiddleware
 from typing_extensions import Annotated
@@ -170,6 +171,8 @@ build_dir = get_build_dir("frontend", "frontend")
 copilot_build_dir = get_build_dir(os.path.join("libs", "copilot"), "copilot")
 
 app = FastAPI(lifespan=lifespan)
+
+templates = Jinja2Templates(directory="templates")
 
 sio = socketio.AsyncServer(
     cors_allowed_origins=[] if IS_SUBMOUNT else "*", async_mode="asgi"
