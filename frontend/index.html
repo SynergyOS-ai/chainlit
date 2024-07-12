@@ -3,24 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TAG INJECTION PLACEHOLDER -->
+    <title>{{ config.ui.name }}</title>
+    <link rel="icon" href="{{ favicon_path }}" />
+    <meta name="description" content="{{ config.ui.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ config.ui.name }}">
+    <meta property="og:description" content="{{ config.ui.description }}">
+    <meta property="og:image" content="{{ meta_image_url }}">
+    <meta property="og:url" content="{{ url }}">
+    <meta property="og:root_path" content="{{ ROOT_PATH }}">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- FONT START -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- FONT END -->
+    {% if config.ui.custom_font %}
+      <link rel="stylesheet" href="{{ config.ui.custom_font }}">
+    {% else %}
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet"
+      />
+    {% endif %}
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
     />
-    <!-- JS INJECTION PLACEHOLDER -->
-    <!-- CSS INJECTION PLACEHOLDER -->
+    {% if config.ui.custom_css %}
+      <link rel="stylesheet" type="text/css" href="{{ config.ui.custom_css }}">
+    {% endif %}
     <script>
       const global = globalThis;
+      {% if config.ui.theme %}
+        window.theme = {{ config.ui.theme.to_dict() | tojson }};
+      {% endif %}
     </script>
+    {% if config.ui.custom_js %}
+      <script src="{{ config.ui.custom_js }}" defer></script>
+    {% endif %}
   </head>
   <body>
     <div id="root"></div>
