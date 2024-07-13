@@ -257,10 +257,11 @@ def replace_between_tags(text: str, start_tag: str, end_tag: str, replacement: s
     pattern = start_tag + ".*?" + end_tag
     return re.sub(pattern, start_tag + replacement + end_tag, text, flags=re.DOTALL)
 
+
 def get_html_template(request: Request):
-    default_url = "https://github.com/Chainlit/chainlit"
-    default_meta_image_url = "https://chainlit-cloud.s3.eu-west-3.amazonaws.com/logo/chainlit_banner.png"
-    url = config.ui.github or default_url
+    default_url = "https://app.purposepilot.co/"
+    default_meta_image_url = "https://app.purposepilot.co/logo?theme=light"
+    url = config.ui.custom_url or default_url
     meta_image_url = config.ui.custom_meta_image_url or default_meta_image_url
     favicon_path = ROOT_PATH + "/favicon" if ROOT_PATH else "/favicon"
 
@@ -273,6 +274,7 @@ def get_html_template(request: Request):
         "ROOT_PATH": ROOT_PATH,
     }
     return templates.TemplateResponse("index.html", context)
+
 
 def get_user_facing_url(url: URL):
     """

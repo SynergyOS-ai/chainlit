@@ -12,29 +12,34 @@
     <meta property="og:image" content="{{ meta_image_url }}">
     <meta property="og:url" content="{{ url }}">
     <meta property="og:root_path" content="{{ ROOT_PATH }}">
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Conditionally include custom font or default Inter font -->
     {% if config.ui.custom_font %}
       <link rel="stylesheet" href="{{ config.ui.custom_font }}">
     {% else %}
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-        rel="stylesheet"
-      />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
     {% endif %}
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"
-    />
+
+    <!-- Include KaTeX CSS if needed -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+
+    <!-- Conditionally include custom CSS -->
     {% if config.ui.custom_css %}
       <link rel="stylesheet" type="text/css" href="{{ config.ui.custom_css }}">
     {% endif %}
-    <script>
-      const global = globalThis;
-      {% if config.ui.theme %}
-        window.theme = {{ config.ui.theme.to_dict() | tojson }};
-      {% endif %}
-    </script>
+
+    <!-- Theme Configuration Script -->
+    {% if config.ui.theme %}
+      <script id="theme-data" type="application/json">
+        window.theme = {{ config.ui.theme.to_dict() | tojson | safe }};
+      </script>
+    {% endif %}
+
+    <!-- Conditionally include custom JS -->
     {% if config.ui.custom_js %}
       <script src="{{ config.ui.custom_js }}" defer></script>
     {% endif %}

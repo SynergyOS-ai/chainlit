@@ -240,7 +240,7 @@ class FeaturesSettings(DataClassJsonMixin):
     latex: bool = False
     unsafe_allow_html: bool = False
     auto_tag_thread: bool = True
-    edit_message:bool = True
+    edit_message: bool = True
 
 
 @dataclass()
@@ -258,6 +258,8 @@ class UISettings(DataClassJsonMixin):
     custom_font: Optional[str] = None
     # Optional custom meta tag for image preview
     custom_meta_image_url: Optional[str] = None
+    # Optional custom meta url
+    custom_url: Optional[str] = None
     # Optional custom build directory for the frontend
     custom_build: Optional[str] = None
 
@@ -285,9 +287,9 @@ class CodeSettings:
 
     author_rename: Optional[Callable[[str], str]] = None
     on_settings_update: Optional[Callable[[Dict[str, Any]], Any]] = None
-    set_chat_profiles: Optional[Callable[[Optional["User"]], List["ChatProfile"]]] = (
-        None
-    )
+    set_chat_profiles: Optional[
+        Callable[[Optional["User"]], List["ChatProfile"]]
+    ] = None
     set_starters: Optional[Callable[[Optional["User"]], List["Starter"]]] = None
 
 
