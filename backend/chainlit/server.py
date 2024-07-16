@@ -151,23 +151,23 @@ async def lifespan(app: FastAPI):
         os._exit(0)
 
 
-    def get_build_dir(local_target: str, packaged_target: str):
-        local_build_dir = os.path.join(PACKAGE_ROOT, local_target, "dist")
-        packaged_build_dir = os.path.join(BACKEND_ROOT, packaged_target, "dist")
+def get_build_dir(local_target: str, packaged_target: str):
+    local_build_dir = os.path.join(PACKAGE_ROOT, local_target, "dist")
+    packaged_build_dir = os.path.join(BACKEND_ROOT, packaged_target, "dist")
 
-        if config.ui.custom_build and os.path.exists(
-            os.path.join(APP_ROOT, config.ui.custom_build)
-        ):
-            return os.path.join(APP_ROOT, config.ui.custom_build)
-        elif os.path.exists(local_build_dir):
-            return local_build_dir
-        elif os.path.exists(packaged_build_dir):
-            return packaged_build_dir
-        else:
-            raise FileNotFoundError(f"{local_target} built UI dir not found")
+    if config.ui.custom_build and os.path.exists(
+        os.path.join(APP_ROOT, config.ui.custom_build)
+    ):
+        return os.path.join(APP_ROOT, config.ui.custom_build)
+    elif os.path.exists(local_build_dir):
+        return local_build_dir
+    elif os.path.exists(packaged_build_dir):
+        return packaged_build_dir
+    else:
+        raise FileNotFoundError(f"{local_target} built UI dir not found")
 
 
-    build_dir = get_build_dir("frontend", "frontend")
+build_dir = get_build_dir("frontend", "frontend")
 copilot_build_dir = get_build_dir(os.path.join("libs", "copilot"), "copilot")
 
 app = FastAPI(lifespan=lifespan)
