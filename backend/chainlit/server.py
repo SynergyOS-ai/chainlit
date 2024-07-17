@@ -172,9 +172,6 @@ copilot_build_dir = get_build_dir(os.path.join("libs", "copilot"), "copilot")
 
 app = FastAPI(lifespan=lifespan)
 
-
-#FIXME - Remove this - Print build_dir to verify
-print(f"Templates directory: {build_dir}")
 templates = Jinja2Templates(directory=build_dir)
 
 sio = socketio.AsyncServer(
@@ -262,20 +259,29 @@ def replace_between_tags(text: str, start_tag: str, end_tag: str, replacement: s
 
 
 def get_html_template(request: Request):
-    default_url = "https://app.purposepilot.co/"
-    default_meta_image_url = "https://app.purposepilot.co/logo?theme=light"
-    url = config.ui.custom_url or default_url
-    meta_image_url = config.ui.custom_meta_image_url or default_meta_image_url
+    default_url = "https://github.com/Chainlit/chainlit"
+    default_og_image_url = (
+        "https://chainlit-cloud.s3.eu-west-3.amazonaws.com/logo/chainlit_banner.png"
+    )
+    url = config.ui.github or default_url
+    og_image_url = config.ui.custom_og_image_url or default_og_image_url
     favicon_path = ROOT_PATH + "/favicon" if ROOT_PATH else "/favicon"
+    twitter_card_image_url = config.ui.twitter_card_image_url or og_image_url
 
     context = {
         "request": request,
-        "config": config,
         "favicon_path": favicon_path,
-        "meta_image_url": meta_image_url,
-        "url": url,
-        "ROOT_PATH": ROOT_PATH,
+        "name": config.ui.name,
+        "description": config.ui.description,
+        "custom_font": config.ui.custom_font,
+        "custom_css": config.ui.custom_css,
+        "custom_js": config.ui.custom_js,
+        "theme": config.ui.theme.to_dict() if config.ui.theme else None,
+        "github": url,
+        "og_image_url": og_image_url,
+        "twitter_card_image_url": twitter_card_image_url,
     }
+
     return templates.TemplateResponse("index.html", context)
 
 
