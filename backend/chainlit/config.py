@@ -126,9 +126,6 @@ hide_cot = false
 # Specify a custom meta url.
 # custom_url = ""
 
-# Specify a custom Twitter card image url.
-# twitter_card_image_url = ""
-
 # Specify a custom build directory for the frontend.
 # This can be used to customize the frontend code.
 # Be careful: If this is a relative path, it should not start with a slash.
@@ -268,8 +265,6 @@ class UISettings(DataClassJsonMixin):
     custom_url: Optional[str] = None
     # Optional custom build directory for the frontend
     custom_build: Optional[str] = None
-    # Optional custom Twitter card image URL
-    twitter_card_image_url: Optional[str] = None
 
 
 @dataclass()

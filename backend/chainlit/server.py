@@ -266,7 +266,6 @@ def get_html_template(request: Request):
     url = config.ui.github or default_url
     og_image_url = config.ui.custom_og_image_url or default_og_image_url
     favicon_path = ROOT_PATH + "/favicon" if ROOT_PATH else "/favicon"
-    twitter_card_image_url = config.ui.twitter_card_image_url or og_image_url
 
     context = {
         "request": request,
@@ -279,10 +278,9 @@ def get_html_template(request: Request):
         "theme": config.ui.theme.to_dict() if config.ui.theme else None,
         "github": url,
         "og_image_url": og_image_url,
-        "twitter_card_image_url": twitter_card_image_url,
     }
 
-    return templates.TemplateResponse("index.html", context)
+    return templates.TemplateResponse("index.html.j2", context)
 
 
 def get_user_facing_url(url: URL):
