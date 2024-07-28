@@ -121,7 +121,10 @@ cot = "full"
 # custom_font = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
 
 # Specify a custom meta image url.
-# custom_meta_image_url = "https://chainlit-cloud.s3.eu-west-3.amazonaws.com/logo/chainlit_banner.png"
+# custom_og_image_url = "https://chainlit-cloud.s3.eu-west-3.amazonaws.com/logo/chainlit_banner.png"
+
+# Specify a custom meta url.
+# custom_url = ""
 
 # Specify a custom build directory for the frontend.
 # This can be used to customize the frontend code.
@@ -257,7 +260,9 @@ class UISettings(DataClassJsonMixin):
     custom_js: Optional[str] = None
     custom_font: Optional[str] = None
     # Optional custom meta tag for image preview
-    custom_meta_image_url: Optional[str] = None
+    custom_og_image_url: Optional[str] = None
+    # Optional custom meta url
+    custom_url: Optional[str] = None
     # Optional custom build directory for the frontend
     custom_build: Optional[str] = None
 
@@ -285,9 +290,9 @@ class CodeSettings:
 
     author_rename: Optional[Callable[[str], str]] = None
     on_settings_update: Optional[Callable[[Dict[str, Any]], Any]] = None
-    set_chat_profiles: Optional[Callable[[Optional["User"]], List["ChatProfile"]]] = (
-        None
-    )
+    set_chat_profiles: Optional[
+        Callable[[Optional["User"]], List["ChatProfile"]]
+    ] = None
     set_starters: Optional[Callable[[Optional["User"]], List["Starter"]]] = None
 
 
