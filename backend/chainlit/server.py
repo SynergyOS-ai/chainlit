@@ -280,7 +280,7 @@ def get_html_template(request: Request):
         "og_image_url": og_image_url,
     }
 
-    return templates.TemplateResponse("index.html.j2", context)
+    return templates.TemplateResponse("index.html", context)
 
 
 def get_user_facing_url(url: URL):
