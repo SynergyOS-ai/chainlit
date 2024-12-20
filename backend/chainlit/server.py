@@ -1033,7 +1033,6 @@ def status_check():
 
 @router.get("/{full_path:path}")
 async def serve():
-    html_template = get_html_template(request: Request)
     """Serve the UI files."""
     return get_html_template(request)
 
