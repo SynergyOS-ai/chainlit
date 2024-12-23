@@ -28,6 +28,7 @@ from fastapi import (
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from starlette.datastructures import URL
 from starlette.middleware.cors import CORSMiddleware
 from typing_extensions import Annotated
@@ -187,6 +188,8 @@ copilot_build_dir = get_build_dir(os.path.join("libs", "copilot"), "copilot")
 
 app = FastAPI(lifespan=lifespan)
 
+templates = Jinja2Templates(directory=build_dir)
+
 sio = socketio.AsyncServer(cors_allowed_origins=[], async_mode="asgi")
 
 asgi_app = socketio.ASGIApp(
@@ -275,13 +278,13 @@ def replace_between_tags(
     return re.sub(pattern, start_tag + replacement + end_tag, text, flags=re.DOTALL)
 
 
-def get_html_template():
+def get_html_template(request: Request):
     """
     Get HTML template for the index view.
     """
-    PLACEHOLDER = "<!-- TAG INJECTION PLACEHOLDER -->"
-    JS_PLACEHOLDER = "<!-- JS INJECTION PLACEHOLDER -->"
-    CSS_PLACEHOLDER = "<!-- CSS INJECTION PLACEHOLDER -->"
+    # PLACEHOLDER = "<!-- TAG INJECTION PLACEHOLDER -->"
+    # JS_PLACEHOLDER = "<!-- JS INJECTION PLACEHOLDER -->"
+    # CSS_PLACEHOLDER = "<!-- CSS INJECTION PLACEHOLDER -->"
 
     default_url = "https://github.com/Chainlit/chainlit"
     default_meta_image_url = (
@@ -312,27 +315,23 @@ def get_html_template():
     if config.ui.custom_js:
         js += f"""<script src="{config.ui.custom_js}" defer></script>"""
 
-    font = None
+    font = f"""<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">"""
     if config.ui.custom_font:
         font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""
 
-    index_html_file_path = os.path.join(build_dir, "index.html")
+    context = {
+        "tag_injection" : tags,
+        "font_injection" : font,
+        "js_injection" : js,
+        "css_injection" : css,
+        "root_path": ROOT_PATH, 
+        "request": request,
+    }
+    
+    # Render the response using TemplateResponse
+    return templates.TemplateResponse("index.html", context)
 
-    with open(index_html_file_path, encoding="utf-8") as f:
-        content = f.read()
-        content = content.replace(PLACEHOLDER, tags)
-        if js:
-            content = content.replace(JS_PLACEHOLDER, js)
-        if css:
-            content = content.replace(CSS_PLACEHOLDER, css)
-        if font:
-            content = replace_between_tags(
-                content, "<!-- FONT START -->", "<!-- FONT END -->", font
-            )
-        if ROOT_PATH:
-            content = content.replace('href="/', f'href="{ROOT_PATH}/')
-            content = content.replace('src="/', f'src="{ROOT_PATH}/')
-        return content
+    
 
 
 def get_user_facing_url(url: URL):
@@ -1076,12 +1075,9 @@ def status_check():
 
 
 @router.get("/{full_path:path}")
-async def serve():
-    html_template = get_html_template()
+async def serve(request: Request):
     """Serve the UI files."""
-    response = HTMLResponse(content=html_template, status_code=200)
-
-    return response
+    return get_html_template(request)
 
 
 app.include_router(router)
