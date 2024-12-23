@@ -136,6 +136,9 @@ cot = "full"
 # Be careful: If this is a relative path, it should not start with a slash.
 # custom_build = "./public/build"
 
+#Add Arbitrary meta tags
+# meta_tag = "<meta property="og:type" content="website">"
+
 [UI.theme]
     default = "dark"
     #layout = "wide"
@@ -263,6 +266,8 @@ class UISettings(DataClassJsonMixin):
     custom_meta_image_url: Optional[str] = None
     # Optional custom build directory for the frontend
     custom_build: Optional[str] = None
+    # Arbitrary Meta Tag
+    meta_tag: Optional[str] = None
 
 
 @dataclass()
