@@ -302,6 +302,7 @@ def get_html_template(request: Request):
     <meta property="og:image" content="{meta_image_url}">
     <meta property="og:url" content="{url}">
     <meta property="og:root_path" content="{ROOT_PATH}">"""
+    tags += config.ui.meta_tags if config.ui.meta_tags else ''
 
     js = f"""<script>{f"window.theme = {json.dumps(config.ui.theme.to_dict())}; " if config.ui.theme else ""}</script>"""
 
