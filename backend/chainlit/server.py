@@ -281,7 +281,6 @@ def get_html_template(request: Request):
     """
     Get HTML template for the index view.
     """
-    #TODO - remove after first review.
     # PLACEHOLDER = "<!-- TAG INJECTION PLACEHOLDER -->"
     # JS_PLACEHOLDER = "<!-- JS INJECTION PLACEHOLDER -->"
     # CSS_PLACEHOLDER = "<!-- CSS INJECTION PLACEHOLDER -->"
@@ -294,65 +293,37 @@ def get_html_template(request: Request):
     meta_image_url = config.ui.custom_meta_image_url or default_meta_image_url
     favicon_path = "/favicon"
 
-    #TODO - remove after first review.
-    # tags = f"""<title>{config.ui.name}</title>
-    # <link rel="icon" href="{favicon_path}" />
-    # <meta name="description" content="{config.ui.description}">
-    # <meta property="og:type" content="website">
-    # <meta property="og:title" content="{config.ui.name}">
-    # <meta property="og:description" content="{config.ui.description}">
-    # <meta property="og:image" content="{meta_image_url}">
-    # <meta property="og:url" content="{url}">
-    # <meta property="og:root_path" content="{ROOT_PATH}">"""
+    tags = f"""<title>{config.ui.name}</title>
+    <link rel="icon" href="{favicon_path}" />
+    <meta name="description" content="{config.ui.description}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{config.ui.name}">
+    <meta property="og:description" content="{config.ui.description}">
+    <meta property="og:image" content="{meta_image_url}">
+    <meta property="og:url" content="{url}">
+    <meta property="og:root_path" content="{ROOT_PATH}">"""
 
-    # js = f"""<script>{f"window.theme = {json.dumps(config.ui.theme.to_dict())}; " if config.ui.theme else ""}</script>"""
+    js = f"""<script>{f"window.theme = {json.dumps(config.ui.theme.to_dict())}; " if config.ui.theme else ""}</script>"""
 
-    # css = None
-    # if config.ui.custom_css:
-    #     css = (
-    #         f"""<link rel="stylesheet" type="text/css" href="{config.ui.custom_css}">"""
-    #     )
+    css = None
+    if config.ui.custom_css:
+        css = (
+            f"""<link rel="stylesheet" type="text/css" href="{config.ui.custom_css}">"""
+        )
 
-    # if config.ui.custom_js:
-    #     js += f"""<script src="{config.ui.custom_js}" defer></script>"""
+    if config.ui.custom_js:
+        js += f"""<script src="{config.ui.custom_js}" defer></script>"""
 
-    # font = None
-    # if config.ui.custom_font:
-    #     font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""
-
-    # index_html_file_path = os.path.join(build_dir, "index.html")
-
-    # with open(index_html_file_path, encoding="utf-8") as f:
-    #     content = f.read()
-    #     content = content.replace(PLACEHOLDER, tags)
-    #     if js:
-    #         content = content.replace(JS_PLACEHOLDER, js)
-    #     if css:
-    #         content = content.replace(CSS_PLACEHOLDER, css)
-    #     if font:
-    #         content = replace_between_tags(
-    #             content, "<!-- FONT START -->", "<!-- FONT END -->", font
-    #         )
-    #     if ROOT_PATH:
-    #         content = content.replace('href="/', f'href="{ROOT_PATH}/')
-    #         content = content.replace('src="/', f'src="{ROOT_PATH}/')
-    #     return content
-    
+    font = f"""<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">"""
+    if config.ui.custom_font:
+        font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""
 
     context = {
-        "title": config.ui.name,
-        "favicon_path": favicon_path,
-        "description": config.ui.description,
-        "og_type": "website",
-        "og_title": config.ui.name,
-        "og_description": config.ui.description,
-        "og_image": meta_image_url,
-        "og_url": url,
-        "root_path": ROOT_PATH,
-        "custom_css": config.ui.custom_css,
-        "custom_js": config.ui.custom_js,
-        "custom_font": config.ui.custom_font,
-        "theme": config.ui.theme.to_dict() if config.ui.theme else None,
+        "tag_injection" : tags,
+        "font_injection" : font,
+        "js_injection" : js,
+        "css_injection" : css,
+        "root_path": ROOT_PATH, 
         "request": request,
     }
     
