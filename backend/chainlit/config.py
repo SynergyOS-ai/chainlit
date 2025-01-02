@@ -137,7 +137,7 @@ cot = "full"
 # custom_build = "./public/build"
 
 #Add Arbitrary meta tags
-# meta_tag = "<meta property="og:type" content="website">"
+# meta_tags = '<meta property="og:type" content="website">'
 
 [UI.theme]
     default = "dark"
@@ -267,7 +267,7 @@ class UISettings(DataClassJsonMixin):
     # Optional custom build directory for the frontend
     custom_build: Optional[str] = None
     # Arbitrary Meta Tag
-    meta_tag: Optional[str] = None
+    meta_tags: Optional[str] = None
 
 
 @dataclass()
