@@ -141,8 +141,6 @@ export default function ChatProfiles() {
           </Markdown>
         </Box>
       </Popover>
-
-      {/* Horizontal list of profiles */}
       <Tabs
         value={chatProfile || ''}
         onChange={(event: React.SyntheticEvent, newValue: string) => {
@@ -156,12 +154,14 @@ export default function ChatProfiles() {
         variant="scrollable"
         scrollButtons="auto"
         allowScrollButtonsMobile
+        wrapped
+        centered
         sx={{
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 1,
           backgroundColor: 'background.paper',
-          p: 1,
+          p: 1.5,
           '& .MuiTabs-flexContainer': {
             alignItems: 'center'
           }
