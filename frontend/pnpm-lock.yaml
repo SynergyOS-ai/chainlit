@@ -44,6 +44,9 @@ importers:
       '@mui/x-data-grid':
         specifier: ^6.20.4
         version: 6.20.4(@mui/material@5.14.10(@emotion/react@11.11.1(@types/react@18.2.0)(react@18.2.0))(@emotion/styled@11.11.0(@emotion/react@11.11.1(@types/react@18.2.0)(react@18.2.0))(@types/react@18.2.0)(react@18.2.0))(@types/react@18.2.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@mui/system@5.14.19(@emotion/react@11.11.1(@types/react@18.2.0)(react@18.2.0))(@emotion/styled@11.11.0(@emotion/react@11.11.1(@types/react@18.2.0)(react@18.2.0))(@types/react@18.2.0)(react@18.2.0))(@types/react@18.2.0)(react@18.2.0))(@types/react@18.2.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@sentry/browser':
+        specifier: ^8.48.0
+        version: 8.48.0
       '@sentry/react':
         specifier: ^8.48.0
         version: 8.48.0(react@18.2.0)
