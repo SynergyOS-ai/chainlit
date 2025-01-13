@@ -78,18 +78,16 @@ const useChatSession = () => {
   // Use currentThreadId as thread id in websocket header
   useEffect(() => {
     if (session?.socket) {
-      session.socket.auth["threadId"] =
+      session.socket.io.opts.extraHeaders!['X-Chainlit-Thread-Id'] =
         currentThreadId || '';
     }
   }, [currentThreadId]);
 
   const _connect = useCallback(
     ({
-      transports,
       userEnv,
       accessToken
     }: {
-      transports?: string[]
       userEnv: Record<string, string>;
       accessToken?: string;
     }) => {
@@ -102,17 +100,16 @@ const useChatSession = () => {
 
       const socket = io(uri, {
         path,
-        withCredentials: true,
-        transports,
-        auth: {
-              token: accessToken,
-              clientType: client.type,
-              sessionId,
-              threadId: idToResume || '',
-              userEnv: JSON.stringify(userEnv),
-              chatProfile: chatProfile ? encodeURIComponent(chatProfile) : ''
-          }
-        
+        extraHeaders: {
+          Authorization: accessToken || '',
+          'X-Chainlit-Client-Type': client.type,
+          'X-Chainlit-Session-Id': sessionId,
+          'X-Chainlit-Thread-Id': idToResume || '',
+          'user-env': JSON.stringify(userEnv),
+          'X-Chainlit-Chat-Profile': chatProfile
+            ? encodeURIComponent(chatProfile)
+            : ''
+        }
       });
       setSession((old) => {
         old?.socket?.removeAllListeners();

@@ -12,7 +12,6 @@ export default function ChatWrapper() {
   useEffect(() => {
     if (session?.socket?.connected) return;
     connect({
-      transports: window.transports,
       userEnv: {},
       accessToken: `Bearer ${accessToken}`
     });

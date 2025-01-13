@@ -21,7 +21,6 @@ export interface IAuthConfig {
   requireLogin: boolean;
   passwordAuth: boolean;
   headerAuth: boolean;
-  cookieAuth: boolean;
   oauthProviders: string[];
 }
 
