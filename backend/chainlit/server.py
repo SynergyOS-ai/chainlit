@@ -323,9 +323,6 @@ def get_html_template(request: Request):
     """
     Get HTML template for the index view.
     """
-    # PLACEHOLDER = "<!-- TAG INJECTION PLACEHOLDER -->"
-    # JS_PLACEHOLDER = "<!-- JS INJECTION PLACEHOLDER -->"
-    # CSS_PLACEHOLDER = "<!-- CSS INJECTION PLACEHOLDER -->"
 
     default_url = "https://github.com/Chainlit/chainlit"
     default_meta_image_url = (
