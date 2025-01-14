@@ -347,9 +347,9 @@ def get_html_template(request: Request):
     tags += config.ui.meta_tags if config.ui.meta_tags else ''
 
     js = f"""<script>
-    {f"window.theme = {json.dumps(custom_theme.get('variables'))};" if custom_theme and custom_theme.get("variables") else "undefined"}
-    {f"window.transports = {json.dumps(config.project.transports)};" if config.project.transports else "undefined"}
-    </script>"""
+{f"window.theme = {json.dumps(custom_theme.get('variables'))};" if custom_theme and custom_theme.get("variables") else "undefined"}
+{f"window.transports = {json.dumps(config.project.transports)};" if config.project.transports else "undefined"}
+</script>"""
 
     css = None
     if config.ui.custom_css:
@@ -362,8 +362,7 @@ def get_html_template(request: Request):
 
     font = f"""<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">"""
     if config.ui.custom_font:
-        font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""
-        
+        font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""        
     context = {
         "tag_injection" : tags,
         "font_injection" : font,
