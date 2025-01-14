@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chainlit"
-version = "2.1.dev0"
+version = "2.0rc1"
 keywords = [
     'LLM',
     'Agents',
@@ -87,7 +87,7 @@ pandas = "^2.2.2"
 moto = "^5.0.14"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.7.1"
+ruff = "^0.8.0"
 
 [tool.poetry.group.mypy]
 optional = true
@@ -101,6 +101,7 @@ pandas-stubs = { version = "^2.2.2", python = ">=3.9" }
 
 [tool.mypy]
 python_version = "3.9"
+
 
 [[tool.mypy.overrides]]
 module = [
@@ -121,6 +122,8 @@ ignore_missing_imports = true
 
 
 
+
+
 [tool.poetry.group.custom-data]
 optional = true
 
@@ -132,7 +135,7 @@ azure-identity = "^1.14.1"
 azure-storage-file-datalake = "^12.14.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core==1.9.1"]
 build-backend = "poetry.core.masonry.api"
 
 
