@@ -323,6 +323,15 @@ def get_html_template(request: Request):
     """
     Get HTML template for the index view.
     """
+    ROOT_PATH = os.environ.get("CHAINLIT_ROOT_PATH", "")
+
+    custom_theme = None
+    custom_theme_file_path = Path(public_dir) / "theme.json"
+    if (
+        is_path_inside(custom_theme_file_path, Path(public_dir))
+        and custom_theme_file_path.is_file()
+    ):
+        custom_theme = json.loads(custom_theme_file_path.read_text(encoding="utf-8"))
 
     default_url = "https://github.com/Chainlit/chainlit"
     default_meta_image_url = (
@@ -330,7 +339,7 @@ def get_html_template(request: Request):
     )
     url = config.ui.github or default_url
     meta_image_url = config.ui.custom_meta_image_url or default_meta_image_url
-    favicon_path = "/favicon"
+    favicon_path = f"{ROOT_PATH}/favicon"
 
     tags = f"""<title>{config.ui.name}</title>
     <link rel="icon" href="{favicon_path}" />
@@ -341,7 +350,7 @@ def get_html_template(request: Request):
     <meta property="og:image" content="{meta_image_url}">
     <meta property="og:url" content="{url}">
     <meta property="og:root_path" content="{ROOT_PATH}">"""
-    tags += config.ui.meta_tags if config.ui.meta_tags else ''
+    tags += config.ui.meta_tags if config.ui.meta_tags else ""
 
     js = f"""<script>
 {f"window.theme = {json.dumps(custom_theme.get('variables'))};" if custom_theme and custom_theme.get("variables") else "undefined"}
@@ -350,25 +359,32 @@ def get_html_template(request: Request):
 
     css = None
     if config.ui.custom_css:
-        css = (
-            f"""<link rel="stylesheet" type="text/css" href="{config.ui.custom_css}">"""
-        )
+        css = f"""<link rel="stylesheet" type="text/css" href="{ROOT_PATH}{config.ui.custom_css}">"""
 
     if config.ui.custom_js:
-        js += f"""<script src="{config.ui.custom_js}" defer></script>"""
+        js += f"""<script src="{ROOT_PATH}{config.ui.custom_js}" defer></script>"""
 
-    font = f"""<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">"""
+    if custom_theme and custom_theme.get("custom_fonts"):
+        font = "\n".join(
+            f"""<link rel="stylesheet" href="{ROOT_PATH}{font}">"""
+            for font in custom_theme.get("custom_fonts")
+        )
+
+    else:
+        font = f"""<link rel="stylesheet" href="{ROOT_PATH}/https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">"""
+
     if config.ui.custom_font:
-        font = f"""<link rel="stylesheet" href="{config.ui.custom_font}">"""        
+        font = f"""<link rel="stylesheet" href="{ROOT_PATH}{config.ui.custom_font}">"""
+
     context = {
-        "tag_injection" : tags,
-        "font_injection" : font,
-        "js_injection" : js,
-        "css_injection" : css,
-        "root_path": ROOT_PATH, 
+        "tag_injection": tags,
+        "font_injection": font,
+        "js_injection": js,
+        "css_injection": css,
+        "root_path": ROOT_PATH,
         "request": request,
     }
-    
+
     # Render the response using TemplateResponse
     return templates.TemplateResponse("index.html", context)
 
